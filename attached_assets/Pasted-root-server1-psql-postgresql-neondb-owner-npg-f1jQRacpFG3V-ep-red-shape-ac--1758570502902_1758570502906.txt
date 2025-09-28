@@ -1,0 +1,70 @@
+root@server1:~# psql 'postgresql://neondb_owner:npg_f1jQRacpFG3V@ep-red-shape-ac                                                                                                 6qnrhr-pooler.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=req                                                                                                 uire'
+psql (14.19 (Ubuntu 14.19-0ubuntu0.22.04.1), server 17.5 (84bec44))
+WARNING: psql major version 14, server major version 17.
+         Some psql features might not work.
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, co                                                                                                 mpression: off)
+Type "help" for help.
+
+neondb=> -- Script de limpieza completa de la base de datos
+-- Mantiene solo el usuario admin y limpia todos los datos relacionados
+
+-- Comenzar transacción para poder hacer rollback si algo sale mal
+BEGIN;
+
+-- Deshabilitar restricciones de foreign key temporalmente
+SET session_replication_role = replica;
+
+-- 1. Eliminar datos de tablas dependientes primero (orden importante para las F                                                                                                 K)
+
+-- Limpiar notificaciones
+DELETE FROM notifications WHERE user_id != 1;
+
+-- Limpiar respuestas de tickets
+DELETE FROM ticket_responses
+WHERE ticket_id IN (
+    SELECT id FROM tickets WHERE user_id != 1
+);
+
+-- Limpiar tickets
+DELETE FROM tickets WHERE user_id != 1;
+
+-- ROLLBACK;ale mal, puedes hacer rollback con: siguiente línea para ejecutar)en
+BEGIN
+ERROR:  permission denied to set parameter "session_replication_role"
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transactio                                                                                                 n block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+neondb=!>
